@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Jhatpat Scout",
+  "description": "Automatically detect and download media from any webpage directly into your local library.",
+  "version": "5.0",
+  "permissions": ["activeTab", "scripting", "tabs"],
+  "host_permissions": ["http://localhost:5000/*"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

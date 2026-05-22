@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jhatpat Scout</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+            <line x1="7" y1="2" x2="7" y2="22"></line>
+            <line x1="17" y1="2" x2="17" y2="22"></line>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <line x1="2" y1="7" x2="7" y2="7"></line>
+            <line x1="2" y1="17" x2="7" y2="17"></line>
+            <line x1="17" y1="17" x2="22" y2="17"></line>
+            <line x1="17" y1="7" x2="22" y2="7"></line>
+          </svg>
+        </div>
+        <div class="title-group">
+          <h1>Jhatpat Scout</h1>
+          <p>Find & download videos from any webpage</p>
+        </div>
+      </div>
+      <button class="help-btn" aria-label="Help">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-icon-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+            <line x1="7" y1="2" x2="7" y2="22"></line>
+            <line x1="17" y1="2" x2="17" y2="22"></line>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <line x1="2" y1="7" x2="7" y2="7"></line>
+            <line x1="2" y1="17" x2="7" y2="17"></line>
+            <line x1="17" y1="17" x2="22" y2="17"></line>
+            <line x1="17" y1="7" x2="22" y2="7"></line>
+          </svg>
+        </div>
+        <div class="hero-text">
+          <h2>MEDIA FOUND ON THIS PAGE</h2>
+          <div class="status-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span id="video-count">0 Files Found</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-illustration">
+        <!-- Abstract Illustration elements -->
+        <div class="card-stack">
+          <div class="card card-back"></div>
+          <div class="card card-middle"></div>
+          <div class="card card-front">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+               <polygon points="5 3 19 12 5 21 5 3"></polygon>
+             </svg>
+          </div>
+        </div>
+        <div class="sparkles">✨</div>
+      </div>
+    </section>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="video">Videos <span class="tab-badge" id="badge-video">0</span></button>
+      <button class="tab-btn" data-tab="audio">Audio <span class="tab-badge" id="badge-audio">0</span></button>
+      <button class="tab-btn" data-tab="image">Images <span class="tab-badge" id="badge-image">0</span></button>
+      <button class="tab-btn" data-tab="subtitle">Subs <span class="tab-badge" id="badge-subtitle">0</span></button>
+    </div>
+
+    <!-- Batch Actions -->
+    <div class="batch-actions" id="batch-actions" style="display: none;">
+      <label class="select-all-lbl"><input type="checkbox" id="select-all"> Select All</label>
+      <button id="download-selected-btn" class="batch-download-btn">Download Selected</button>
+    </div>
+
+    <!-- Main Content Grid -->
+    <main class="grid-container" id="list">
+       <div class="empty-state"><p>Scouting for media...</p></div>
+    </main>
+    
+    <div class="scan-actions" id="scan-actions" style="display: none;"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="privacy-note">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <span>Your privacy is important to us. No data is stored.</span>
+      </div>
+      <div class="footer-links">
+        <button class="report-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Report Issue
+        </button>
+        <button class="love-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          Love the extension?
+        </button>
+      </div>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

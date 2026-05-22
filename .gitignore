@@ -1,0 +1,22 @@
+# PyInstaller & Build outputs
+build/
+dist/
+*.exe
+
+# Python temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Backup & Old folders
+New folder/
+FiNal 5.5/
+Old/
+jahta backyup code/
+
+# OS generated files
+.DS_Store
+Thumbs.db
