@@ -863,6 +863,11 @@ class JhatpatDownloader(ctk.CTk):
                 for entry in entries:
                     title = entry.get('title', 'Unknown File')
                     entry_url = entry.get('url', url)
+                    
+                    # yt-dlp bug: extract_flat=True on single videos returns raw googlevideo stream
+                    if 'googlevideo.com' in entry_url:
+                        entry_url = entry.get('webpage_url', url)
+                        
                     if not entry_url.startswith('http'):
                         if 'youtube' in url.lower() or 'youtu.be' in url.lower():
                             entry_url = f"https://www.youtube.com/watch?v={entry_url}"
@@ -946,10 +951,10 @@ class JhatpatDownloader(ctk.CTk):
             self.after(0, create_ui)
             
             while row_ui[0] is None: time.sleep(0.1)
-            self.run_dl(url, mode, row_ui[0], pt)
+            self.run_dl(url, mode, row_ui[0], pt, title)
             self.dl_queue.task_done()
 
-    def run_dl(self, url, mode, row_ui, playlist_title):
+    def run_dl(self, url, mode, row_ui, playlist_title, title=""):
         if mode == "local_audio":
             self.run_local_ffmpeg(url, row_ui)
             return
@@ -969,7 +974,15 @@ class JhatpatDownloader(ctk.CTk):
             self.run_direct_dl(url, mode, row_ui, target_dir)
             return
 
-        ff = os.path.join(resource_path("ffmpeg"), "bin")
+        # Fix FFmpeg Path for PyInstaller
+        if getattr(sys, 'frozen', False):
+            ff_dir = os.path.join(os.path.dirname(sys.executable), "ffmpeg", "bin")
+        else:
+            ff_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", "bin")
+            
+        ff = os.path.join(ff_dir, "ffmpeg.exe") if os.name == 'nt' else os.path.join(ff_dir, "ffmpeg")
+        if not os.path.exists(ff): ff = "ffmpeg"
+
         q = {"4K":"2160","1080p":"1080","720p":"720","480p":"480"}.get(self.res_var.get(), "1080")
         
         def hook(d):
@@ -1002,9 +1015,14 @@ class JhatpatDownloader(ctk.CTk):
                 if filename:
                     self.after(0, lambda f=filename, t=thumb: self.add_to_history(f, t))
 
-        outtmpl = os.path.join(target_dir, '%(title)s.%(ext)s')
+        if title and title != "Unknown File" and title != "downloaded_file":
+            # Sanitize title for filesystem
+            clean_title = "".join([c for c in title if c.isalnum() or c in ' -_()']).strip()
+            outtmpl = os.path.join(target_dir, f'{clean_title}.%(ext)s')
+        else:
+            outtmpl = os.path.join(target_dir, '%(title)s.%(ext)s')
             
-        opts = {'ffmpeg_location': ff, 'outtmpl': outtmpl, 'progress_hooks': [hook], 'quiet': True, 'noplaylist': True}
+        opts = {'ffmpeg_location': ff_dir, 'outtmpl': outtmpl, 'progress_hooks': [hook], 'quiet': True, 'noplaylist': True}
         
         if mode == "video":
             v_fmt = self.vid_fmt_var.get().lower() if hasattr(self, 'vid_fmt_var') else 'mp4'
@@ -1054,7 +1072,11 @@ class JhatpatDownloader(ctk.CTk):
                 self.after(1000, row_ui.remove_self)
 
     def run_local_ffmpeg(self, filepath, row_ui):
-        ff_dir = os.path.join(resource_path("ffmpeg"), "bin")
+        if getattr(sys, 'frozen', False):
+            ff_dir = os.path.join(os.path.dirname(sys.executable), "ffmpeg", "bin")
+        else:
+            ff_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", "bin")
+            
         ff = os.path.join(ff_dir, "ffmpeg.exe") if os.name == 'nt' else os.path.join(ff_dir, "ffmpeg")
         if not os.path.exists(ff): ff = "ffmpeg"
         
